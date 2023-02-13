@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MIssion6DevonWolsleger.Models
 {
+ //certain feilds are requiered the last 3 are not, and notes has a 25 character limit
     public class ApplicationResponse
     {
         [Key]
