@@ -21,9 +21,8 @@ namespace MIssion6DevonWolsleger.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Catagory")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CatagoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -52,13 +51,15 @@ namespace MIssion6DevonWolsleger.Migrations
 
                     b.HasKey("ApplicationId");
 
+                    b.HasIndex("CatagoryId");
+
                     b.ToTable("Responses");
 
                     b.HasData(
                         new
                         {
                             ApplicationId = 1,
-                            Catagory = "Action",
+                            CatagoryId = 1,
                             Director = "Quinten Tarentino",
                             Edited = false,
                             Rating = "R",
@@ -68,7 +69,7 @@ namespace MIssion6DevonWolsleger.Migrations
                         new
                         {
                             ApplicationId = 2,
-                            Catagory = "Action",
+                            CatagoryId = 1,
                             Director = "George Lucas",
                             Edited = false,
                             Rating = "PG",
@@ -78,13 +79,63 @@ namespace MIssion6DevonWolsleger.Migrations
                         new
                         {
                             ApplicationId = 3,
-                            Catagory = "Action",
+                            CatagoryId = 2,
                             Director = "Larry Morey",
                             Edited = false,
                             Rating = "G",
                             Title = "Snow White and the Seven Dwarfs",
                             Year = 1938
                         });
+                });
+
+            modelBuilder.Entity("MIssion6DevonWolsleger.Models.Catagory", b =>
+                {
+                    b.Property<int>("CatagoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CatagoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CatagoryId");
+
+                    b.ToTable("Catagories");
+
+                    b.HasData(
+                        new
+                        {
+                            CatagoryId = 1,
+                            CatagoryName = "Action"
+                        },
+                        new
+                        {
+                            CatagoryId = 2,
+                            CatagoryName = "Adventure"
+                        },
+                        new
+                        {
+                            CatagoryId = 3,
+                            CatagoryName = "Romance"
+                        },
+                        new
+                        {
+                            CatagoryId = 4,
+                            CatagoryName = "Thriller"
+                        },
+                        new
+                        {
+                            CatagoryId = 5,
+                            CatagoryName = "Horror"
+                        });
+                });
+
+            modelBuilder.Entity("MIssion6DevonWolsleger.Models.ApplicationResponse", b =>
+                {
+                    b.HasOne("MIssion6DevonWolsleger.Models.Catagory", "Catagory")
+                        .WithMany()
+                        .HasForeignKey("CatagoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

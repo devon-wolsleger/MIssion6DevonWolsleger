@@ -13,8 +13,7 @@ namespace MIssion6DevonWolsleger.Models
         [Required]
         public int ApplicationId { get; set; }
         [Required]
-        public string Catagory { get; set; }
-        [Required]
+
         public string Title { get; set; }
         [Required]
         public int Year { get; set; }
@@ -26,6 +25,10 @@ namespace MIssion6DevonWolsleger.Models
         public string LentTo { get; set; }
         [StringLength(25)]
         public string Notes { get; set; }
+
+        //Building foreign key relationship
+        public int CatagoryId { get; set; }
+        public Catagory Catagory { get; set; }
 
     }
 }

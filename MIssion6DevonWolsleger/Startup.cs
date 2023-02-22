@@ -57,7 +57,7 @@ namespace MIssion6DevonWolsleger
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{applicationid?}");
             });
         }
     }

@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "View Movies";
+}
+
+@model List<ApplicationResponse>
+
+@* A page where you can see all the movies *@
+
+<table class="table table-bordered table-striped">
+
+    <thead class="font-weight-bold">
+        <tr>
+            <td>Category</td>
+            <td>Title</td>
+            <td>Year</td>
+            <td>Director</td>
+            <td>Rating</td>
+            <td>Editted</td>
+            <td>Lent to</td>
+            <td>Notes</td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var x in Model)
+            {
+                <tr>
+                    <td>@x.Catagory.CatagoryName</td>
+                    <td>@x.Title</td>
+                    <td>@x.Year</td>
+                    <td>@x.Director</td>
+                    <td>@x.Rating</td>
+                    <td>@x.Edited</td>
+                    <td>@x.LentTo</td>
+                    <td>@x.Notes</td>
+
+                    <td><a asp-controller="Home" asp-action="Edit" asp-route-applicationid="@x.ApplicationId">Edit</a></td>
+                    <td><a asp-controller="Home" asp-action="Delete" asp-route-applicationid="@x.ApplicationId">Delete</a></td>
+                </tr>
+            }
+    </tbody>
+
+</table>

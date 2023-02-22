@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MIssion6DevonWolsleger.Models;
 using System;
@@ -11,13 +12,13 @@ namespace MIssion6DevonWolsleger.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private MovieInfoContext blahContext { get; set; }
 
-        public HomeController(ILogger<HomeController> logger, MovieInfoContext x)
+        private MovieInfoContext maContext { get; set; }
+
+        public HomeController(MovieInfoContext x)
         {
-            _logger = logger;
-            blahContext = x;
+
+            maContext = x;
         }
 
         public IActionResult Index()
@@ -28,16 +29,27 @@ namespace MIssion6DevonWolsleger.Controllers
         [HttpGet]
         public IActionResult FillOutForum()
         {
+            ViewBag.Catagories = maContext.Catagories.ToList();
+
             return View("MovieForum");
         }
 
         [HttpPost]
         public IActionResult FillOutForum(ApplicationResponse ar)
         {
-            blahContext.Add(ar);
-            blahContext.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                maContext.Add(ar);
+                maContext.SaveChanges();
 
-            return View("Confirmation");
+                return View("Confirmation", ar);
+            }
+            else
+            {
+                ViewBag.Catagories = maContext.Catagories.ToList();
+
+                return View("MovieForum");
+            }
         }
 
         public IActionResult Privacy()
@@ -45,10 +57,49 @@ namespace MIssion6DevonWolsleger.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet]
+        public IActionResult WaitList()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var movieList = maContext.Responses
+                .Include(x => x.Catagory)
+                .OrderBy(x => x.Title)
+                .ToList();
+
+            return View(movieList);
+        }
+        [HttpGet]
+        public IActionResult Edit (int applicationid)
+        {
+            ViewBag.Catagories = maContext.Catagories.ToList();
+
+            var forum = maContext.Responses.Single(x => x.ApplicationId == applicationid);
+
+            return View("MovieForum", forum);
+        }
+
+        [HttpPost]
+        public IActionResult Edit (ApplicationResponse blah)
+        {
+            maContext.Update(blah);
+            maContext.SaveChanges();
+
+            return RedirectToAction("Waitlist");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int applicationid)
+        {
+            var forum = maContext.Responses.Single(x => x.ApplicationId == applicationid);
+            return View(forum);
+        }
+
+        [HttpPost]
+        public IActionResult Delete (ApplicationResponse ar)
+        {
+            maContext.Responses.Remove(ar);
+            maContext.SaveChanges();
+
+            return RedirectToAction("Waitlist");
         }
     }
 }
