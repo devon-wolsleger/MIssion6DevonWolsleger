@@ -1,17 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "The Joel Hilton Film Collection";
+    ViewData["Title"] = "Check out the coolest entertainers";
 }
-@*Home page containing the proper title and the image*@ 
-<div class="text-center">
-    <h1 class="display-4">Welcome to the Joel Hilton Film Collection</h1>
+
+<div class="text-center bg-light text-light py-5">
+    <h1 class="display-4 mb-4 text-dark">Welcome to the Entertainment Agency</h1>
+    <img src="~/img/image1.jpg" style="max-width: 100%; height: auto;" class="rounded-circle shadow-lg" />
 </div>
-
-<img src="~/img/JoelHiltonHeadshot.jpg" height="400"/>
-
-<div>
-    <a asp-controller="Home" asp-action="FillOutForum"> Fill out a movie forum </a>
-</div>
-
-<div>
-    <a asp-controller="Home" asp-action="WaitList">View Movie List</a>
+<div class="text-center mt-5">
+    <a asp-controller="Home" asp-action="FillOutForum" class="btn btn-primary btn-lg mr-5">Add a new Entertainer</a>
+    <a asp-controller="Home" asp-action="WaitList" class="btn btn-secondary btn-lg">View the current list of Entertainers</a>
 </div>

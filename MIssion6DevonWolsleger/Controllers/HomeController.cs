@@ -1,21 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MIssion6DevonWolsleger.Models;
+using Final.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MIssion6DevonWolsleger.Controllers
+namespace Final.Controllers
 {
     public class HomeController : Controller
     {
 
-        private MovieInfoContext maContext { get; set; }
+        private EntertainmentInfoContext maContext { get; set; }
 
-        public HomeController(MovieInfoContext x)
+        public HomeController(EntertainmentInfoContext x)
         {
 
             maContext = x;
@@ -29,13 +29,11 @@ namespace MIssion6DevonWolsleger.Controllers
         [HttpGet]
         public IActionResult FillOutForum()
         {
-            ViewBag.Catagories = maContext.Catagories.ToList();
-
             return View("MovieForum");
         }
 
         [HttpPost]
-        public IActionResult FillOutForum(ApplicationResponse ar)
+        public IActionResult FillOutForum(Entertainers ar)
         {
             if (ModelState.IsValid)
             {
@@ -46,39 +44,28 @@ namespace MIssion6DevonWolsleger.Controllers
             }
             else
             {
-                ViewBag.Catagories = maContext.Catagories.ToList();
-
                 return View("MovieForum");
             }
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [HttpGet]
         public IActionResult WaitList()
         {
-            var movieList = maContext.Responses
-                .Include(x => x.Catagory)
-                .OrderBy(x => x.Title)
-                .ToList();
+            var movieList = maContext.Entertainers.ToList();
 
             return View(movieList);
         }
         [HttpGet]
-        public IActionResult Edit (int applicationid)
+        public IActionResult Edit (int entertainerid)
         {
-            ViewBag.Catagories = maContext.Catagories.ToList();
-
-            var forum = maContext.Responses.Single(x => x.ApplicationId == applicationid);
+            var forum = maContext.Entertainers.Single(x => x.EntertainerID == entertainerid);
 
             return View("MovieForum", forum);
         }
 
         [HttpPost]
-        public IActionResult Edit (ApplicationResponse blah)
+        public IActionResult Edit (Entertainers blah)
         {
             maContext.Update(blah);
             maContext.SaveChanges();
@@ -87,16 +74,16 @@ namespace MIssion6DevonWolsleger.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int applicationid)
+        public IActionResult Delete(int entertainerid)
         {
-            var forum = maContext.Responses.Single(x => x.ApplicationId == applicationid);
+            var forum = maContext.Entertainers.Single(x => x.EntertainerID == entertainerid);
             return View(forum);
         }
 
         [HttpPost]
-        public IActionResult Delete (ApplicationResponse ar)
+        public IActionResult Delete (Entertainers ar)
         {
-            maContext.Responses.Remove(ar);
+            maContext.Entertainers.Remove(ar);
             maContext.SaveChanges();
 
             return RedirectToAction("Waitlist");

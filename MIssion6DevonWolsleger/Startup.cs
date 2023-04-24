@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MIssion6DevonWolsleger.Models;
+using Final.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MIssion6DevonWolsleger
+namespace Final
 {
     public class Startup
     {
@@ -27,7 +27,7 @@ namespace MIssion6DevonWolsleger
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<MovieInfoContext>(options =>
+            services.AddDbContext<EntertainmentInfoContext>(options =>
            {
                options.UseSqlite(Configuration["ConnectionStrings:BlahConnection"]);
            });
@@ -57,7 +57,7 @@ namespace MIssion6DevonWolsleger
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{applicationid?}");
+                    pattern: "{controller=Home}/{action=Index}/{entertainerid?}");
             });
         }
     }

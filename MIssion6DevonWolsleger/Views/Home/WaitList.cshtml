@@ -1,43 +1,52 @@
 ﻿@{
-    ViewData["Title"] = "View Movies";
+    ViewData["Title"] = "View Entertainers";
 }
 
-@model List<ApplicationResponse>
+@model List<Entertainers>
 
-@* A page where you can see all the movies *@
+<div class="container">
+    <h1 class="text-center mb-5">All Entertainers</h1>
+    <div class="row justify-content-center">
+        <div>
+            <table class="table table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Stage Name</th>
+                        <th scope="col">SSN</th>
+                        <th scope="col">Street Address</th>
+                        <th scope="col">City</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Zip Code</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Web Page</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Date Entered</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
 
-<table class="table table-bordered table-striped">
-
-    <thead class="font-weight-bold">
-        <tr>
-            <td>Category</td>
-            <td>Title</td>
-            <td>Year</td>
-            <td>Director</td>
-            <td>Rating</td>
-            <td>Editted</td>
-            <td>Lent to</td>
-            <td>Notes</td>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var x in Model)
-            {
-                <tr>
-                    <td>@x.Catagory.CatagoryName</td>
-                    <td>@x.Title</td>
-                    <td>@x.Year</td>
-                    <td>@x.Director</td>
-                    <td>@x.Rating</td>
-                    <td>@x.Edited</td>
-                    <td>@x.LentTo</td>
-                    <td>@x.Notes</td>
-
-                    <td><a asp-controller="Home" asp-action="Edit" asp-route-applicationid="@x.ApplicationId">Edit</a></td>
-                    <td><a asp-controller="Home" asp-action="Delete" asp-route-applicationid="@x.ApplicationId">Delete</a></td>
-                </tr>
-            }
-    </tbody>
-
-</table>
+                <tbody>
+                    @foreach (var x in Model)
+                    {
+                        <tr>
+                            <td>@x.EntStageName</td>
+                            <td>@x.EntSSN</td>
+                            <td>@x.EntStreetAddress</td>
+                            <td>@x.EntCity</td>
+                            <td>@x.EntState</td>
+                            <td>@x.EntZipCode</td>
+                            <td>@x.EntPhoneNumber</td>
+                            <td>@x.EntWebPage</td>
+                            <td>@x.EntEMailAddress</td>
+                            <td>@x.DateEntered</td>
+                            <td class="text-center">
+                                <a href="@Url.Action("Edit", new { entertainerid = x.EntertainerID })" class="btn btn-primary btn-sm mr-2">Edit</a>
+                                <a href="@Url.Action("Delete", new { entertainerid = x.EntertainerID })" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
